@@ -2,7 +2,7 @@ const About = () => {
   return (
     <div>
       <h1>
-        This is Namste React
+        Working On About Page....
       </h1>
     </div>
   )

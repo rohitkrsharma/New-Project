@@ -11,10 +11,9 @@ const Header = () => {
       </div>
       <div className="nav-items">
         <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/about">About Us</Link></li>
-          <li><Link to="/contact">Contact Us</Link></li>
-          <li>Cart</li>
+          <li><Link className="decoration1" to="/">Home</Link></li>
+          <li><Link className="decoration1" to="/about">About Us</Link></li>
+          <li><Link className="decoration1" to="/contact">Contact Us</Link></li>
           <button className="login" onClick={() => {
             btnNameReact == "login" ? setBtnNameReact('logout') : setBtnNameReact('login')
           }}>{btnNameReact} </button>
