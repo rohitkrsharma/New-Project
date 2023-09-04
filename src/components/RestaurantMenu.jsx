@@ -1,25 +1,13 @@
-import { useEffect, useState } from "react";
+import useRestaurantMenu from "../utilis/useRestaurantMenu";
 import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
-import { MENU_API } from "../utilis/common";
 
 const RestaurantMenu = () => {
-  const [resInfo, setResInfo] = useState(null);
 
   const { resId } = useParams();
 
-  useEffect(() => {
-    fetchMenu();
-  }, []);
+  const resInfo = useRestaurantMenu(resId);
 
-
-
-  const fetchMenu = async () => {
-    const data = await fetch(MENU_API + resId);
-    const json = await data.json();
-    console.log(json);
-    setResInfo(json.data);
-  }
   if (resInfo === null) return <Shimmer />;
   const { name, cuisines, costForTwoMessage } = resInfo?.cards[0]?.card?.card?.info || {};
 
@@ -27,20 +15,20 @@ const RestaurantMenu = () => {
 
 
   return (
-    <>
-      <h1>
+    <div className="p-4 m-4">
+      <h1 className="font-extrabold py-3">
         {name}
       </h1>
       <h3>
         {cuisines.join(' , ')} - {costForTwoMessage}
       </h3>
-      <h1>Menu</h1>
-      <ul>
+      <h1 className="font-extrabold py-3">Menu</h1>
+      <ul className="flex flex-col gap-2 pl-4">
         {
-          itemCards.map((item) => (<li key={item.card?.info?.id}>{item.card?.info?.name} - {"Rs"} {item.card?.info?.price}</li>))
+          itemCards.map((item) => (<li key={item.card?.info?.id} className="list-disc">{item.card?.info?.name} - {"Rs"} {item.card?.info?.price}</li>))
         }
       </ul>
-    </>
+    </div>
   )
 
 }

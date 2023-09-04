@@ -1,12 +1,9 @@
 const ContactUS = () => {
   return (
-    <div>
-      <h1>
-        <a className="email" href="mailto:rohtmystic@gmail.com">Click here to email me 👨🏿‍💻</a>
+    <div className="m-4 font-bold pt-10 flex items-center flex-col">
+      <h1 className="">
+        <a href="mailto:rohtmystic@gmail.com">Click here to email me 👨🏿‍💻</a>
       </h1>
-      <div style={{ display: 'flex', alignItems: 'center', height: '100vh', justifyContent: 'center' }}>
-        <h1>Working on it.....</h1>
-      </div>
     </div>
   )
 }

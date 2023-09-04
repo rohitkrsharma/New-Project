@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utilis/useOnlineStatus";
 
 const Body = () => {
   const [listOfrestaurant, setListOfrestaurant] = useState([]);
@@ -37,23 +38,27 @@ const Body = () => {
     const filtered = listOfrestaurant.filter((res) => res.info.avgRating > 4);
     setFilteredRestaurants(filtered);
   };
-
   console.log('body rendered');
+  const onlineStatus = useOnlineStatus();
+
+  if (onlineStatus === false) return <h1>You are offline !! please check your connection</h1>
   return listOfrestaurant.length == 0 ? <Shimmer /> : (
     <div className="body">
-      <div className="filter">
-        <div className="search">
+      <div className="flex gap-1 items-center">
+        <div className=" p-4 m-4 gap-2">
           <input
             type="text"
-            className="input-text"
+            className="py-2 px-4 rounded-lg border border-black focus:border-2 focus:border-black focus:outline-none"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <button className="search-btn" onClick={handleSearch}>Search</button>
+          <button className="px-4 py-2 bg-blue-400 m-3 rounded-lg" onClick={handleSearch}>Search</button>
         </div>
-        <button className="filter-btn" onClick={handleTopRated}>Top Rated Restaurants</button>
+        <div>
+          <button className="px-4 py-2 bg-blue-400 rounded-lg" onClick={handleTopRated}>Top Rated Restaurants</button>
+        </div>
       </div>
-      <div className="res-container">
+      <div className="flex flex-wrap">
         {filteredRestaurants.map((restaurant) => (
           <Link className="decoration" key={restaurant.info.id} to={"/restaurants/" + restaurant.info.id}>
             <RestaurantCard resData={restaurant} />
