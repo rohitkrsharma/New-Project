@@ -1,6 +1,8 @@
-import useRestaurantMenu from "../utilis/useRestaurantMenu";
-import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
+import useRestaurantMenu from "../utilis/useRestaurantMenu";
+import RestaurantCategory from "./RestaurantCategory";
+import Shimmer from "./Shimmer";
+import { useState } from "react";
 
 const RestaurantMenu = () => {
 
@@ -8,26 +10,30 @@ const RestaurantMenu = () => {
 
   const resInfo = useRestaurantMenu(resId);
 
+  const [showIndex, setShowIndex] = useState(0);
+
+
   if (resInfo === null) return <Shimmer />;
   const { name, cuisines, costForTwoMessage } = resInfo?.cards[0]?.card?.card?.info || {};
 
   const { itemCards } = resInfo.cards[3]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card || {};
 
-
+  const categories = resInfo.cards[3]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter((c) => c.card?.card?.["@type"] == "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory");
+  console.log(categories);
   return (
-    <div className="p-4 m-4">
-      <h1 className="font-extrabold py-3">
+    <div className="text-center">
+      <h1 className="font-extrabold py-6 text-2xl">
         {name}
       </h1>
-      <h3>
+      <h3 className="font-bold text-lg">
         {cuisines.join(' , ')} - {costForTwoMessage}
       </h3>
-      <h1 className="font-extrabold py-3">Menu</h1>
-      <ul className="flex flex-col gap-2 pl-4">
-        {
-          itemCards.map((item) => (<li key={item.card?.info?.id} className="list-disc">{item.card?.info?.name} - {"Rs"} {item.card?.info?.price}</li>))
-        }
-      </ul>
+      {/* controlled component */}
+      {
+        categories.map((category, index) => <RestaurantCategory data={category?.card?.card}
+          showItems={index === showIndex ? true : false}
+          setShowIndex={() => setShowIndex(index)}  />)
+      }
     </div>
   )
 
