@@ -1,7 +1,14 @@
+import { useDispatch } from "react-redux";
 import { CDN_IMG } from "../utilis/common";
+import { addItem } from "../utilis/cartSlice";
 
 const ItemList = ({ items }) => {
-  console.log(items);
+  const dispatch = useDispatch();
+
+  const handleAddItem = (ele) => {
+    dispatch(addItem(ele));
+  }
+
   return (
     <div>
       <h1 className="text-center">
@@ -20,7 +27,7 @@ const ItemList = ({ items }) => {
               </div>
               <div className="w-3/12 relative rounded-sm" >
                 <img className=" rounded-sm" src={CDN_IMG + ele.card.info.imageId} />
-                <button className="px-4 py-2 bg-slate-100 shadow-md absolute bottom-0 left-8 rounded-md text-lg font-semibold">Add +</button>
+                <button className="px-4 py-2 bg-slate-100 shadow-md absolute bottom-0 left-8 rounded-md text-lg font-semibold" onClick={() => handleAddItem(ele)}>Add +</button>
               </div>
             </div>
           </div>
